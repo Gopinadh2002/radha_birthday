@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Almost Time...</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base Styling to match your game */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #333;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Container */
+        .glass-container {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            transition: opacity 0.5s ease;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        /* Countdown Timer Styling */
+        .timer-row {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 10px;
+            padding: 15px;
+            width: 60px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .time-box span {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff758c;
+            display: block;
+        }
+
+        .time-box p {
+            font-size: 12px;
+            margin: 5px 0 0 0;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #555;
+        }
+
+        /* Gift Box Section (Hidden initially) */
+        #gift-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in;
+        }
+
+        .gift-emoji {
+            font-size: 100px;
+            cursor: pointer;
+            margin: 20px 0;
+            display: inline-block;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* CSS Animation for tapping the gift */
+        @keyframes shake {
+            0% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-10deg); }
+            50% { transform: scale(1.1) rotate(10deg); }
+            75% { transform: scale(1.1) rotate(-10deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .shake {
+            animation: shake 0.3s ease-in-out;
+        }
+
+        .instruction {
+            font-size: 16px;
+            color: #444;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="glass-container" id="main-container">
+        
+        <div id="countdown-section">
+            <h1>The Wait is Almost Over...</h1>
+            <p>Something special is unlocking soon, Radha!</p>
+            
+            <div class="timer-row">
+                <div class="time-box"><span id="days">00</span><p>Days</p></div>
+                <div class="time-box"><span id="hours">00</span><p>Hrs</p></div>
+                <div class="time-box"><span id="minutes">00</span><p>Min</p></div>
+                <div class="time-box"><span id="seconds">00</span><p>Sec</p></div>
+            </div>
+        </div>
+
+        <div id="gift-section">
+            <h1>It's Time!</h1>
+            <p class="instruction" id="tap-instruction">Tap the gift to open it...</p>
+            <div class="gift-emoji" id="gift-box" onclick="tapGift()">🎁</div>
+        </div>
+
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. SET THE BIRTHDAY DATE AND TIME HERE
+        // Format: "Month DD, YYYY HH:MM:SS"
+        // ==========================================
+        const birthdayDate = new Date("May 21, 2026 00:00:00").getTime(); 
+
+        // Update the count down every 1 second
+        const timerInterval = setInterval(function() {
+
+            // Get today's date and time
+            const now = new Date().getTime();
+                
+            // Find the distance between now and the countdown date
+            const distance = birthdayDate - now;
+                
+            // Time calculations for days, hours, minutes and seconds
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+            // Output the result in the elements
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+                
+            // If the count down is over, switch to the Gift Box
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                showGift();
+            }
+        }, 1000);
+
+        // Function to transition from Timer to Gift
+        function showGift() {
+            document.getElementById("countdown-section").style.display = "none";
+            let giftSection = document.getElementById("gift-section");
+            giftSection.style.display = "block";
+            
+            // Small delay to allow CSS fade-in
+            setTimeout(() => {
+                giftSection.style.opacity = "1";
+            }, 100);
+        }
+
+        // ==========================================
+        // 2. GIFT BOX CLICK LOGIC
+        // ==========================================
+        let clickCount = 0;
+        const requiredClicks = 4; // Number of taps required to open
+
+        function tapGift() {
+            clickCount++;
+            let gift = document.getElementById("gift-box");
+            let instruction = document.getElementById("tap-instruction");
+
+            // Remove and re-add the shake class to restart the animation on every tap
+            gift.classList.remove("shake");
+            void gift.offsetWidth; // This forces the browser to reset the animation
+            gift.classList.add("shake");
+
+            // Update text based on taps
+            if (clickCount === 1) {
+                instruction.innerText = "It's stubborn... tap again!";
+            } else if (clickCount === 2) {
+                instruction.innerText = "Almost there! Keep tapping!";
+            } else if (clickCount === 3) {
+                instruction.innerText = "One more time!";
+            } else if (clickCount >= requiredClicks) {
+                // Change emoji to confetti, update text
+                gift.innerText = "🎉";
+                instruction.innerText = "Unlocked!";
+                
+                // Redirect to the main game (index.html) after 1 second
+                setTimeout(() => {
+                    window.location.href = "game.html"; 
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>

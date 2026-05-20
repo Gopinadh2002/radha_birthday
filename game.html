@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Radha!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base Styling & Animated Gradient Background */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #333;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Container */
+        .vault-container {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            color: #444;
+        }
+
+        /* Form Elements */
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #a1c4fd;
+        }
+
+        button {
+            background: #ff9a9e;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 154, 158, 0.4);
+            width: 100%; /* Makes button full width on mobile */
+        }
+
+        button:hover {
+            background: #ff758c;
+            transform: translateY(-2px);
+        }
+
+        /* Utility Classes for Logic */
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 15px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .show-error { opacity: 1; }
+        
+        .level-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .active-level {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Audio Player Styling */
+        audio {
+            width: 100%;
+            margin-bottom: 20px;
+            outline: none;
+            border-radius: 25px;
+        }
+
+        /* Fixed Image/Sticker Styling */
+        .sticker {
+            width: 100%;
+            max-width: 180px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            transform: rotate(-3deg); /* Gives a nice tilted scrapbook effect */
+            transition: transform 0.3s ease;
+        }
+
+        .sticker:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        /* Fixed Content/Letter Box Styling */
+        #content {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-top: 15px;
+            max-height: 40vh; /* Limits height so it fits on mobile */
+            overflow-y: auto; /* Adds a scrollbar if the letter is long */
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        /* Custom Scrollbar for the Letter Box */
+        #content::-webkit-scrollbar { width: 6px; }
+        #content::-webkit-scrollbar-thumb { background: #ff9a9e; border-radius: 10px; }
+
+        /* Mobile Responsiveness Rules */
+        @media (max-width: 480px) {
+            .vault-container {
+                padding: 25px 20px; /* Slightly less padding on small screens */
+                width: 95%;
+            }
+            h2 { font-size: 24px; }
+            p { font-size: 14px; margin-bottom: 15px; }
+            #content { font-size: 14px; padding: 15px; }
+            .sticker { max-width: 150px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="level-1" class="vault-container active-level level-section">
+        <h2>Level 1: The Hook</h2>
+        <p>Before we get to the gifts, we have to go back to the beginning. What was the name of the place where we had our very first outing?</p>
+        <input type="text" id="input-1" placeholder="Enter your answer...">
+        <button onclick="checkAnswer(1, 'ragadawale', 'level-2')">Unlock</button>
+        <div id="error-1" class="error-message">Hmm, that doesn't seem right. Try again bro!</div>
+    </div>
+
+    <div id="level-2" class="vault-container level-section">
+        <h2>Level 2: The Hex Code</h2>
+        <p>Oh you got it correct but not this one, can you pinpoint the exact shade? The password is the name of the color hidden in this code: <b>#FFC0CB</b></p>
+        <input type="text" id="input-2" placeholder="Enter the color name...">
+        <button onclick="checkAnswer(2, 'pink', 'level-3')">Unlock</button>
+        <div id="error-2" class="error-message">Nope! Google might be able to help you out...</div>
+    </div>
+
+    <div id="level-3" class="vault-container level-section">
+        <h2>Level 3: The Investigation</h2>
+        <p>Time to step out of the browser. Check your camera roll. What color shirt was I wearing for the first time when we went to NRI Hackathon?</p>
+        <input type="text" id="input-3" placeholder="Enter the shirt color...">
+        <button onclick="checkAnswer(3, 'light blue', 'level-4')">Unlock</button>
+        <div id="error-3" class="error-message">Take a closer look at your gallery!</div>
+    </div>
+
+    <div id="level-4" class="vault-container level-section">
+        <h2>Level 4: The Soundtrack</h2>
+        <p>You're almost there. Press play. What is the very next word in this song?</p>
+        <audio controls>
+            <source src="song_RB.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        
+        <p style="font-style: italic; color: #555; background: rgba(255,255,255,0.5); padding: 10px; border-radius: 8px;">
+            "Puttina roju subhakankshalu, naa __________,<br>
+            party eppudu isthavo cheppave pichi pilla!"
+        </p>
+        <p>Fill in the blank. What is the most commonly called name?</p>
+        <input type="text" id="input-4" placeholder="Enter the missing word...">
+        <button onclick="checkAnswer(4, 'potti pilla', 'finale')">Unlock Vault</button>
+        <div id="error-4" class="error-message">Come on, you know what I want!</div>
+    </div>
+
+    <div id="finale" class="vault-container level-section">
+        <img src="radha_sticker.png" class="sticker" alt="Birthday Image">
+        <h2>Happy Birthday Radha! 🎂</h2>
+        <p>You cracked the code! Happy birthday to my bestuu friendu. Here is your surprise...</p>
+        
+        <div id="content">
+            <p><i>My Dear Birthday Girl, <br><br>
+            Wishing you a very Happy Birthday! I hope your special day is filled with joy, laughter, 
+            and all your favorite things.<br><br>
+
+            Nuvu yepudu alari la, manchiga, cute ga yepudu andarini santhosha parusthu,
+            nuvu santhosham ga vundali ani korukunthu ne best beloved bestfrienduu...<br><br>
+
+            Thank you for being such a good friend to me. Nuvu yem anukonu ante chinna kavithavam
+            rasina oksari chusi yela vundho chepava.<br><br>
+         
+            You have a heart so rare and beautiful, and that makes you a truly special one. 
+            And in your smile I see something more beautiful than the stars Across the Universe.
+            You must have magical powers because every time I look at you, the world disappears.
+            Some people make the world beautiful just by being in it.<br><br>
+            
+            Wishing you a great year ahead and a beautiful day celebrating!<br><br>
+
+            Itlu ne best frienduu....
+            </i></p>
+        </div>
+    </div>
+
+    <script>
+        function checkAnswer(currentLevel, correctAnswer, nextLevelId) {
+            let inputElement = document.getElementById('input-' + currentLevel);
+            let errorMessage = document.getElementById('error-' + currentLevel);
+            let userAnswer = inputElement.value.toLowerCase().trim();
+
+            if (userAnswer === correctAnswer) {
+                let currentDiv = document.getElementById('level-' + currentLevel);
+                currentDiv.classList.remove('active-level');
+                
+                setTimeout(() => {
+                    let nextDiv = document.getElementById(nextLevelId);
+                    nextDiv.classList.add('active-level');
+                    errorMessage.classList.remove('show-error');
+                }, 400); 
+            } else {
+                errorMessage.classList.add('show-error');
+                inputElement.style.borderColor = '#e74c3c';
+                setTimeout(() => {
+                    inputElement.style.borderColor = 'rgba(255, 255, 255, 0.6)';
+                }, 1500);
+            }
+        }
+    </script>
+</body>
+</html>
